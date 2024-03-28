@@ -1,3 +1,3 @@
-const nameA = "jasdeep";
+import apiKey = require("../components/CoinbaseToken")
 
-console.log(nameA);
+console.log(apiKey)
