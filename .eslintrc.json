@@ -1,7 +1,7 @@
 {
     "env": {
-        "browser": true,
-        "es2021": true
+        "browser": false,
+        "es2022": true
     },
     "extends": [
         "eslint:recommended",
@@ -16,5 +16,6 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "@typescript-eslint/no-explicit-any": ["off"]
     }
 }

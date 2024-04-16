@@ -1,28 +1,28 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const jwt = require("jsonwebtoken");
-const coinbaseApiKey = require("../coinbase_cloud_api_key.json");
-const keyName = coinbaseApiKey.name;
-const keySecret = coinbaseApiKey.privateKey;
-const requestMethod = 'GET';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import crypto from 'crypto';
+// import coinbaseApiKey = require('../coinbase_cloud_api_key.json');
+dotenv.config();
+const key_name = process.env.KEY_NAME;
+const key_secret = process.env.KEY_SECRET;
+const request_method = 'GET';
 const url = 'api.coinbase.com';
-const requestPath = '/api/v3/brokerage/accounts';
-const serviceName = 'retail_rest_api_proxy';
+const request_path = '/api/v3/brokerage/accounts';
 const algorithm = 'ES256';
-const uri = requestMethod + ' ' + url + requestPath;
+const uri = request_method + ' ' + url + request_path;
 const options = {
     algorithm,
     header: {
-        kid: keyName,
-        alg: "ES256",
-    }
+        kid: key_name,
+        nonce: crypto.randomBytes(16).toString('hex'),
+    },
 };
 const token = jwt.sign({
-    aud: [serviceName],
     iss: 'coinbase-cloud',
     nbf: Math.floor(Date.now() / 1000),
     exp: Math.floor(Date.now() / 1000) + 120,
-    sub: keyName,
+    sub: key_name,
     uri,
-}, keySecret, options);
-module.exports = { token };
+}, key_secret, options);
+export default token;
+//# sourceMappingURL=CoinbaseToken.js.map
